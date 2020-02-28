@@ -1,12 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { App } from "./components/App";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
+import { faTwitch } from "@fortawesome/free-brands-svg-icons/faTwitch";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter";
+import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
+import { faSteam } from "@fortawesome/free-brands-svg-icons/faSteam";
+import { faSoundcloud } from "@fortawesome/free-brands-svg-icons/faSoundcloud";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons/faYoutube";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// FA Imports
+library.add(
+    faDiscord,
+    faTwitter,
+    faGithub,
+    faTwitch,
+    faSteam,
+    faSoundcloud,
+    faYoutube
+);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<App />, document.getElementById("root"));
