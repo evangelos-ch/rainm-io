@@ -1,19 +1,14 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback } from "react";
 import Logo from "./Logo.svg";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
+import { useSpring, animated, interpolate } from "react-spring";
 
-interface IHeaderProps {
-    collapsed: boolean
-}
-
-const Wrapper = styled.div<IHeaderProps>`
+const Wrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: ${props => props.collapsed ? "flex-start" : "center"};
+    justify-content: center;
     background: ${props => props.theme.backgroundHighlight};
     border-bottom: 3px ${props => props.theme.headerColor} solid;
-    padding-top: ${props => props.collapsed ? "20px" : "50px"};
-    padding-bottom: ${props => props.collapsed ? "20px" : "50px"};
     box-shadow: 0 3px 6px rgb(0, 0, 0, 0.16);
     position: fixed;
     top: 0;
@@ -21,40 +16,61 @@ const Wrapper = styled.div<IHeaderProps>`
     z-index: 1;
 `;
 
-const LogoWrapper = styled.div<IHeaderProps>`
-    transition: 0.5s;
+const LogoWrapper = styled.div`
     vertical-align: middle;
-    width: ${props => props.collapsed ? "43px" : "135px"};
-    height: ${props => props.collapsed ? "43px" : "135px"};
-    ${props => props.collapsed && css`
-        margin-left: 20px;
-    `}
 `;
 
-const LogoText = styled.h1<IHeaderProps>`
+const LogoText = styled.h1`
     span.highlight {
         color: ${props => props.theme.headerColor};
     }
-    font-size: ${props => props.collapsed ? "30px" : "100px"};
     color: ${props => props.theme.textColour};
-    margin: 0 0 0 25px;
+    margin: 0;
     text-shadow: 0 3px 6px rgb(0, 0, 0, 0.16);
-    transition: 0.5s;
-    ${props => props.collapsed && css`
-        margin-left: 10px;
-    `}
 `;
 
+const AnimatedWrapper = animated(Wrapper);
+const AnimatedLogoWrapper = animated(LogoWrapper);
+const AnimatedLogoText = animated(LogoText);
+
+const THRESHOLD = 200;
+
 export const Header: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
+    const [{ scrollTop }, set] = useSpring(() => ({ scrollTop: 0 }));
+
+    const interpLogoSize = interpolate(
+        [scrollTop],
+        o => 135 - 92 * Math.min(o / THRESHOLD, 1)
+    );
+
+    const interpHeaderPadding = interpolate(
+        [scrollTop],
+        o => 50 - 30 * Math.min(o / THRESHOLD, 1)
+    );
+
+    const interpHeaderFontSize = interpolate(
+        [scrollTop],
+        o => 100 - 60 * Math.min(o / THRESHOLD, 1)
+    );
+
+    const interpHeaderTextMargin = interpolate(
+        [scrollTop],
+        o => 25 - 15 * Math.min(o / THRESHOLD, 1)
+    );
+
+    const interpLogoMargin = interpolate(
+        [scrollTop],
+        o => 0 + 20 * Math.min(o / THRESHOLD, 1)
+    );
+
+    // TODO handle this better
+    const interpAlignment = interpolate([scrollTop], o =>
+        o / THRESHOLD >= 1 ? "flex-start" : "center"
+    );
 
     const listener = useCallback(() => {
-        const thresh = 100;
-        setCollapsed(
-            document.documentElement.scrollTop > thresh ||
-                document.body.scrollTop > thresh
-        );
-    }, []);
+        set({ scrollTop: document.documentElement.scrollTop });
+    }, [set]);
 
     useEffect(() => {
         window.addEventListener("scroll", listener);
@@ -62,18 +78,30 @@ export const Header: React.FC = () => {
     }, [listener]);
 
     return (
-        <Wrapper
-            collapsed={collapsed}>
-            <LogoWrapper
-                collapsed={collapsed}
+        <AnimatedWrapper
+            style={{
+                paddingTop: interpHeaderPadding,
+                paddingBottom: interpHeaderPadding,
+                justifyContent: interpAlignment
+            }}
+        >
+            <AnimatedLogoWrapper
+                style={{
+                    width: interpLogoSize,
+                    height: interpLogoSize,
+                    marginLeft: interpLogoMargin
+                }}
             >
-                <img src={Logo} alt="Logo"/>
-            </LogoWrapper>
-            <LogoText
-                collapsed={collapsed}
+                <img src={Logo} alt="Logo" />
+            </AnimatedLogoWrapper>
+            <AnimatedLogoText
+                style={{
+                    fontSize: interpHeaderFontSize,
+                    marginLeft: interpHeaderTextMargin
+                }}
             >
                 Rainm<span className={"highlight"}>.</span>io
-            </LogoText>
-        </Wrapper>
+            </AnimatedLogoText>
+        </AnimatedWrapper>
     );
 };
