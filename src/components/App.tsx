@@ -38,11 +38,8 @@ export const App: React.FC = () => {
                         the point.{" "}
                     </Paragraph>
                     <Paragraph>
-                        In real life, I'm Evangelos, a 20 year old nerd from
-                        Athens, studying Computer Science in Guildford, but
-                        currently residing and working in Darmstadt and I'm
-                        pretty sure my journey still has more destinations to
-                        go. But on the internet... I am:
+                        In real life, I'm Evangelos, a 21 year old nerd from
+                        Athens, studying Computer Science in Guildford, England. But on the internet... I am:
                     </Paragraph>
                     <SocialRow>
                         <Icon name={["fab", "discord"]} text="Rain#8710" />
@@ -94,6 +91,9 @@ export const App: React.FC = () => {
                         translate Visual Novels for{" "}
                         <ColouredLink href="https://dareno.me">
                             Committee of Zero
+                        </ColouredLink>{" "} and
+                        <ColouredLink colour="#4CF89A" href="https://github.com/Hollow-Moon">
+                            Hollow Moon
                         </ColouredLink>{" "}
                         and Manga for{" "}
                         <ColouredLink
