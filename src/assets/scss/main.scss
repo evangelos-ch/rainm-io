@@ -1,0 +1,12 @@
+@import "theme";
+@import "typography";
+
+:root {
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body {
+    background: $background;
+    margin: 0;
+    padding: 0;
+}
