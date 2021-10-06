@@ -38,6 +38,12 @@
     <a href="https://soundcloud.com/rainmkr/" style="--colour: #FF9533">SoundCloud</a>. And who knows, maybe I will release more in the 
     future.
   </p>-->
+  <h3>Programming</h3>
+  <p>
+    I'm currently pursuing a PhD in Computer Science, primarily focused on Reinforcement Learning. I am primarily doing research on its application to
+    complex networks and specifically bioinformatics. If this sounds interesting to you to any extent please reach out to me on Discord, I'm always
+    eager to talk research or take on new projects.
+  </p>
   <h3>Video Games & Streaming</h3>
   <p>
     And of course, I'm still super passionate about video games and doubt that will ever change. Nowadays in my (very little) free time, 
